@@ -14,6 +14,9 @@ spring:
     view:
       prefix: /views/
       suffix: .html
+logging:
+  level:
+    root: DEBUG
       
 ---
 spring:
