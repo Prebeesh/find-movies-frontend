@@ -1,0 +1,14 @@
+{
+  "name": "FindMoviesFrontService",
+  "description": "FindMovies front end views are provided by this service.",
+  "website": "https://github.com/Prebeesh/find-movies-frontend",
+  "success_url": "/home",
+  "env": {
+    "EUREKA_URL": {
+      "description": "URL of the Eureka Server in the form http://<user>:<password>@<host>"
+    },
+    "DOMAIN_NAME": {
+      "description": "The domain name of this app. For example: <appname>.herokuapp.com"
+    }
+  }
+}

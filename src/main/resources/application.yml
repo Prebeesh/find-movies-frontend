@@ -1,0 +1,25 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://user:password@localhost:8761}/eureka/
+security:
+  user:
+    password: ${eureka.password}
+MovieNameService:
+  url: http://MovieNameService/movies/
+server:
+  port: ${PORT:8081}
+spring:
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .html
+      
+---
+spring:
+  profiles: heroku
+eureka:
+  instance:
+    hostname: ${DOMAIN_NAME}
+    nonSecurePort: 80
+  password: ${USER_PASSWORD:password}
