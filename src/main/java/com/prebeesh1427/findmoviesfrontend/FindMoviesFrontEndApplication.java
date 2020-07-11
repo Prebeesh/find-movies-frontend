@@ -15,10 +15,4 @@ public class FindMoviesFrontEndApplication {
 		SpringApplication.run(FindMoviesFrontEndApplication.class, args);
 	}
 	
-	@Bean
-	@LoadBalanced
-	public RestTemplate getRestClient() {
-		return new RestTemplate();
-	}
-
 }
