@@ -1,24 +1,17 @@
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: ${EUREKA_URL:http://user:password@localhost:8761}/eureka/
+      defaultZone: http://admin:password@localhost:8761/eureka
 MovieNameService:
   url: http://MovieNameService/movies/
 server:
   port: ${PORT:8081}
 spring:
+  application:
+    name: FindMovies_FrontEnd
   mvc:
     view:
-      prefix: /views/
+      prefix: /webapp/views/
       suffix: .html
-logging:
-  level:
-    root: DEBUG
-      
----
-spring:
-  profiles: heroku
-eureka:
-  instance:
-    hostname: ${DOMAIN_NAME}
-    nonSecurePort: 80
