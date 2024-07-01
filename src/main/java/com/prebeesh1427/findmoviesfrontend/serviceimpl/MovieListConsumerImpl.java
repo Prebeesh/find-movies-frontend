@@ -22,16 +22,19 @@ import com.prebeesh1427.findmoviesfrontend.service.MovieListConsumer;
 @Service
 public class MovieListConsumerImpl implements MovieListConsumer{
 
-	@Autowired
 	private RestTemplate restClient;
-	
-	@Autowired
 	private CountryCode countryCodeList;
+	private String movieNameServiceUrl;
+
+	public MovieListConsumerImpl(@Value("${service.url.movieNameService}") String movieNameServiceUrl,
+								 CountryCode countryCodeList,
+								 RestTemplate restClient) {
+		this.movieNameServiceUrl = movieNameServiceUrl;
+		this.countryCodeList = countryCodeList;
+		this.restClient = restClient;
+	}
 	
-	@Value("${MovieNameService.url}")
-	private String MovieNameServiceUrl;
-	
-	Logger logger = LoggerFactory.getLogger(MovieListConsumerImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(MovieListConsumerImpl.class);
 	
 	@Override
 	public ResponseEntity<MovieSearchResultsDto> getMovieList(String searchText, String countryCode) {
@@ -42,7 +45,7 @@ public class MovieListConsumerImpl implements MovieListConsumer{
 			logger.error("*****************************");
 			logger.error("Server side validation failed");
 			logger.error("*****************************");
-			return new ResponseEntity<MovieSearchResultsDto>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		String url = prepareUrl(searchText, countryCode);
 		HttpHeaders header = new HttpHeaders();
@@ -56,9 +59,9 @@ public class MovieListConsumerImpl implements MovieListConsumer{
 					MovieSearchResultsDto.class);
 		}catch (Exception e) {
 			logger.error("******************************************");
-			logger.error("Exception occured while calling the API "+ e);
+			logger.error("Exception occurred while calling the API "+ e);
 			logger.error("******************************************");
-			return new ResponseEntity<MovieSearchResultsDto>(
+			return new ResponseEntity<>(
 			          HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
@@ -73,7 +76,7 @@ public class MovieListConsumerImpl implements MovieListConsumer{
 
 	private String prepareUrl(String searchText, String countryCode) {
 		
-		return MovieNameServiceUrl+searchText+"/"+countryCode;
+		return movieNameServiceUrl+searchText+"/"+countryCode;
 	}
 
 	private void prepareHeader(HttpHeaders header) {
