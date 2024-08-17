@@ -1,6 +1,6 @@
 service:
   url:
-    movieNameService: ${PORT:http://MovieNameService/movies/}
+    movieNameService: ${movieNameServiceUrl:http://localhost:8082/movies/}
 server:
   port: ${PORT:8081}
 spring:
