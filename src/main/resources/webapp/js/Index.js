@@ -3,7 +3,7 @@ function doSearch(){
 	var searchText = $("#search_txt").val();
 	var countryCode = $('#country_code').find(":selected").val();
 	if(searchText == "" || countryCode == 0){
-		alert("Please enter proper informations");
+		alert("Inputs are not valid. Please try again");
 	}else{	
 		$('#response_list').empty();
 		$.ajax({
@@ -80,6 +80,7 @@ function locationHtml(locations){
 	return locationCode;
 }
 
+
 function detailsHtml(external_ids){
 	var detailsCode = `
 		<h4>For Details:</h4>
@@ -90,21 +91,21 @@ function detailsHtml(external_ids){
 					<a
 						href="${external_ids.imdb.url}"
 						target="_blank"> <img alt=""
-						src="/img/imdb-logo.png">
+						src="../img/imdb-logo.png">
 					</a>
 				</div>
 				<div class="col-md-3 col-6">
 					<a
 						href="${external_ids.tmdb.url}"
 						target="_blank"> <img alt=""
-						src="/img/tmdb_icon.png">
+						src="../img/tmdb_icon.png">
 					</a>
 				</div>
 				<div class="col-md-3 col-6">
 					<a
 						href="${external_ids.wiki_data.url}"
 						target="_blank"> <img alt=""
-						src="/img/wikidata_logo.png">
+						src="../img/wikidata_logo.png">
 					</a>
 				</div>
 			</div>

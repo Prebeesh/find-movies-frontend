@@ -4,7 +4,6 @@ import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.prebeesh1427.findmoviesfrontend.data.CountryCode;
@@ -22,27 +22,26 @@ import com.prebeesh1427.findmoviesfrontend.service.MovieListConsumer;
 @Service
 public class MovieListConsumerImpl implements MovieListConsumer{
 
-	@Autowired
-	private RestTemplate restClient;
-	
-	@Autowired
-	private CountryCode countryCodeList;
-	
-	@Value("${MovieNameService.url}")
-	private String MovieNameServiceUrl;
-	
-	Logger logger = LoggerFactory.getLogger(MovieListConsumerImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(MovieListConsumerImpl.class);
+	private final RestTemplate restClient;
+	private final CountryCode countryCodeList;
+	private final String movieNameServiceUrl;
+
+	public MovieListConsumerImpl(@Value("${service.url.movieNameService}") String movieNameServiceUrl,
+								 CountryCode countryCodeList,
+								 RestTemplate restClient) {
+		this.movieNameServiceUrl = movieNameServiceUrl;
+		this.countryCodeList = countryCodeList;
+		this.restClient = restClient;
+	}
 	
 	@Override
 	public ResponseEntity<MovieSearchResultsDto> getMovieList(String searchText, String countryCode) {
-		
+
 		logger.debug("Inside service class");
-		
-		if(validateInput(searchText, countryCode)) {
-			logger.error("*****************************");
-			logger.error("Server side validation failed");
-			logger.error("*****************************");
-			return new ResponseEntity<MovieSearchResultsDto>(HttpStatus.BAD_REQUEST);
+		if(isInValid(searchText, countryCode)) {
+			logger.error("Server side validation failed. Invalid inputs for movie name and country code");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		String url = prepareUrl(searchText, countryCode);
 		HttpHeaders header = new HttpHeaders();
@@ -55,30 +54,25 @@ public class MovieListConsumerImpl implements MovieListConsumer{
 					requestEntity,
 					MovieSearchResultsDto.class);
 		}catch (Exception e) {
-			logger.error("******************************************");
-			logger.error("Exception occured while calling the API "+ e);
-			logger.error("******************************************");
-			return new ResponseEntity<MovieSearchResultsDto>(
+			logger.error("Exception occurred while calling the API: "+ e.getMessage());
+			return new ResponseEntity<>(
 			          HttpStatus.SERVICE_UNAVAILABLE);
 		}
 	}
 	
-	private boolean validateInput(String searchText, String countryCode) {
-
-		if(searchText == "" || searchText == null || !countryCodeList.contains(countryCode)) {
-			return true;
+	private boolean isInValid(String searchText, String countryCode) {
+		if(StringUtils.hasText(searchText) && countryCodeList.contains(countryCode)) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private String prepareUrl(String searchText, String countryCode) {
-		
-		return MovieNameServiceUrl+searchText+"/"+countryCode;
+		return movieNameServiceUrl+searchText+"/"+countryCode;
 	}
 
 	private void prepareHeader(HttpHeaders header) {
-		
-		logger.debug("Setting the Header");
+		logger.debug("Setting the Headers");
 		header.setContentType(MediaType.APPLICATION_JSON);
 		header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		

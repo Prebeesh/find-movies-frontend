@@ -16,17 +16,20 @@ import com.prebeesh1427.findmoviesfrontend.service.MovieListConsumer;
 
 @RestController
 public class MovieListProvider {
-	
-	@Autowired
-	private MovieListConsumer movieListConsumer;
-	
-	Logger logger = LoggerFactory.getLogger(MovieListProvider.class);
 
-	//@ResponseBody
+	private static final Logger logger = LoggerFactory.getLogger(MovieListProvider.class);
+	private final MovieListConsumer movieListConsumer;
+
+	public MovieListProvider(MovieListConsumer movieListConsumer) {
+		this.movieListConsumer=movieListConsumer;
+	}
+
+
 	@GetMapping(path = "movieList/{searchText}/{countryCode}")
 	public ResponseEntity<MovieSearchResultsDto> getMovieLists(@PathVariable("searchText") String movieName, @PathVariable("countryCode") String countryCode) {
-		logger.debug("Inside controller - MovieListProvider");
-		return movieListConsumer.getMovieList(movieName, countryCode);
+		logger.info(String.format("Received the request for getMovieLists(%s, %s)", movieName, countryCode));
+		var result = movieListConsumer.getMovieList(movieName, countryCode);
+		return result;
 		//logger.debug("Sending the response from controller to client");
 		//return new ResponseEntity<MovieSearchResultsDto> (response.getBody(),HttpStatus.OK);
 	}
