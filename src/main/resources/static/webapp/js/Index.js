@@ -11,7 +11,7 @@ function doSearch(){
 			url: '/movieList/'+searchText+'/'+countryCode,
 			success: function(data){
 				var resultList = data.results;
-				if(resultList.length == 0){
+				if(resultList === undefined || resultList.length === undefined || resultList.length == 0){
 					alert("Sorry cannot find movies. Please try another");
 				}else{
 					generateHtml(resultList);
@@ -33,7 +33,9 @@ function doSearch(){
 
 function generateHtml(resultlist){
 	for(i=0; i<resultlist.length;i++){
-		$('#response_list').append(singleMovieHtml(resultlist[i]));
+        if(resultlist[i].locations !== undefined){
+		    $('#response_list').append(singleMovieHtml(resultlist[i]));
+        }
 	}
 }
 
