@@ -1,22 +1,11 @@
 package com.prebeesh1427.findmoviesfrontend.dto;
 
-import java.util.ArrayList;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 public class MovieSearchResultsDto {
-
-	private List<MoviesDto> results = new ArrayList<>();
-
-	public MovieSearchResultsDto() {
-
-	}
-	
-	public List<MoviesDto> getResults() {
-		return results;
-	}
-
-	public void setResults(List<MoviesDto> results) {
-		this.results = results;
-	}
-	
+	private List<MoviesDto> results;
 }

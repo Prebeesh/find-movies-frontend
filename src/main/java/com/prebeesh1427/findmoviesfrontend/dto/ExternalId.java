@@ -1,61 +1,20 @@
 package com.prebeesh1427.findmoviesfrontend.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-class ExternalId{
-	
+@Data
+@NoArgsConstructor
+public class ExternalId {
 	private IdAndUrl imdb;
 	private IdAndUrl tmdb;
-	private IdAndUrl wiki_data;
+	private IdAndUrl wikiData;
 
-	public ExternalId() {
-		
-	}
-
-	public IdAndUrl getImdb() {
-		return imdb;
-	}
-
-	public void setImdb(IdAndUrl imdb) {
-		this.imdb = imdb;
-	}
-
-	public IdAndUrl getTmdb() {
-		return tmdb;
-	}
-
-	public void setTmdb(IdAndUrl tmdb) {
-		this.tmdb = tmdb;
-	}
-
-	public IdAndUrl getWiki_data() {
-		return wiki_data;
-	}
-
-	public void setWiki_data(IdAndUrl wiki_data) {
-		this.wiki_data = wiki_data;
-	}
-
-	class IdAndUrl{
+	@Data
+	@NoArgsConstructor
+	public static class IdAndUrl {
 		private String url;
 		private String id;
-		
-		public IdAndUrl() {
-			
-		}
-		public String getUrl() {
-			return url;
-		}
-		public void setUrl(String url) {
-			this.url = url;
-		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-			
 	}
 }
 

@@ -2,11 +2,10 @@ service:
   url:
     movieNameService: ${movieNameServiceUrl:http://localhost:8082/movies/}
 server:
-  port: ${PORT:8081}
+  port: ${PORT:8080}
 spring:
   application:
     name: FindMovies_FrontEnd
-  mvc:
-    view:
-      prefix: /webapp/views/
-      suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/static/

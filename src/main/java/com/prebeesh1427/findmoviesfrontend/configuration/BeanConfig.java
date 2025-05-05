@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 public class BeanConfig {
 
 	@Bean
-	public RestTemplate getRestClient() {
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 }
