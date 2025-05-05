@@ -14,7 +14,7 @@ FindMovies is a full-stack application for searching movie availability and deta
 ---
 
 ## Prerequisites
-- **Java 21 (GraalVM CE 21.0.2)** ([Install with SDKMAN](https://sdkman.io/))
+- **Java 21 (GraalVM CE 21.0.2)**
 - **Maven 3.8+**
 - **Node.js 18+ & npm** (managed by Maven plugin)
 - **GraalVM Native Image** (`gu install native-image` if not already installed)
